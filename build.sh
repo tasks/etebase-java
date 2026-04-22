@@ -29,7 +29,7 @@ do
     cargo build --target ${target} --release
 
     mkdir -p "$jniDir"
-    cp "target/$target/release/libetebase_android.so" "$jniDir"
+    cp "target/$target/release/libetebase_jni.so" "$jniDir"
 done
 
 ./gradlew clean build

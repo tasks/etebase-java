@@ -2,10 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-group = "com.etebase"
-version = "2.3.2"
-ext.isSnapshot = version.endsWith("SNAPSHOT")
-
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -103,8 +99,8 @@ afterEvaluate {
                 def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
                 url = isSnapshot ? snapshotsRepoUrl : releasesRepoUrl
                 credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
+                    username = project.findProperty('ossrhUsername') ?: ''
+                    password = project.findProperty('ossrhPassword') ?: ''
                 }
             }
         }
