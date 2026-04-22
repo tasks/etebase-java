@@ -32,4 +32,4 @@ do
     cp "target/$target/release/libetebase_jni.so" "$jniDir"
 done
 
-./gradlew clean build
+./gradlew clean :client:build
