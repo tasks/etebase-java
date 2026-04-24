@@ -51,7 +51,7 @@ use crate::{
 #[cfg(feature = "java")]
 use crate::jni_c_header::*;
 
-#[cfg(feature = "android")]
+#[cfg(any(feature = "android", feature = "jvm"))]
 use jni_sys::*;
 
 fn response_reset_ok(resp: &mut Response, bytes: &[u8], status: u16) {
@@ -98,7 +98,7 @@ foreign_class!(class Client {
     }
 
     static {
-        System.loadLibrary("etebase_android");
+        com.etebase.client.internal.NativeLoader.load();
     }
 "#;
 });
@@ -683,7 +683,7 @@ foreign_class!(class FileSystemCache {
 
     foreign_code r#"
     static {
-        System.loadLibrary("etebase_android");
+        com.etebase.client.internal.NativeLoader.load();
     }
 "#;
 });
