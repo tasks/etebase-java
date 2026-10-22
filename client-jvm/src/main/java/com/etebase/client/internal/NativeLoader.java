@@ -51,7 +51,7 @@ public final class NativeLoader {
                 throw new UnsatisfiedLinkError(
                     "Etebase native library not found on classpath: " + resource
                     + " (detected os=" + os + " arch=" + arch + "). "
-                    + "Either the com.etebase:client-jvm artifact is missing a native binary for this platform, "
+                    + "Either the org.tasks:etebase-jvm artifact is missing a native binary for this platform, "
                     + "or set -D" + OVERRIDE_PROPERTY + "=/absolute/path/to/lib to override."
                 );
             }
