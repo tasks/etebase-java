@@ -58,6 +58,13 @@ jobs:
       - name: Put NDK toolchain on PATH
         run: echo "$ANDROID_HOME/ndk/21.3.6528147/toolchains/llvm/prebuilt/linux-x86_64/bin" >> $GITHUB_PATH
 
+      - name: Build libsodium
+        env:
+          CC: ${{ matrix.cc }}
+        run: |
+          dir=$(./build-libsodium.sh ${{ matrix.target }})
+          echo "SODIUM_LIB_DIR=$dir" >> $GITHUB_ENV
+
       - name: Build
         env:
           CC: ${{ matrix.cc }}
@@ -123,6 +130,12 @@ jobs:
           cache-key: desktop-${{ matrix.target }}
           rustflags: ""
           cache: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+      - name: Build libsodium
+        shell: bash
+        run: |
+          dir=$(./build-libsodium.sh ${{ matrix.target }})
+          echo "SODIUM_LIB_DIR=$dir" >> $GITHUB_ENV
 
       - name: Build
         shell: bash
