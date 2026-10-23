@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Publish this version to Maven Central (X.Y.Z or X.Y.Z-SNAPSHOT, leave empty to only build)'
+        description: 'Publish this version to Maven Central (X.Y.Z, X.Y.Z-betaNN or X.Y.Z-SNAPSHOT, leave empty to only build)'
         required: false
 
 permissions:
