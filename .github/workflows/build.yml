@@ -66,8 +66,11 @@ jobs:
           export "CARGO_TARGET_${triple_upper}_LINKER=${{ matrix.cc }}"
           mkdir -p "$RUNNER_TEMP/libunwind-stub"
           printf '!<arch>\n' > "$RUNNER_TEMP/libunwind-stub/libunwind.a"
-          export RUSTFLAGS="-L $RUNNER_TEMP/libunwind-stub -C link-arg=-Wl,-z,max-page-size=16384"
+          export RUSTFLAGS="-L $RUNNER_TEMP/libunwind-stub -C link-arg=-Wl,-z,max-page-size=16384 -C link-arg=-Wl,-z,common-page-size=16384"
           cargo build --locked --target ${{ matrix.target }} --release
+
+      - name: Check 16 KB alignment
+        run: python3 check-elf-alignment.py target/${{ matrix.target }}/release/libetebase_jni.so
 
       - name: Upload native lib
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
