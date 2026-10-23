@@ -58,6 +58,13 @@ jobs:
       - name: Put NDK toolchain on PATH
         run: echo "$ANDROID_HOME/ndk/21.3.6528147/toolchains/llvm/prebuilt/linux-x86_64/bin" >> $GITHUB_PATH
 
+      - name: Build libsodium
+        env:
+          CC: ${{ matrix.cc }}
+        run: |
+          dir=$(./build-libsodium.sh ${{ matrix.target }})
+          echo "SODIUM_LIB_DIR=$dir" >> $GITHUB_ENV
+
       - name: Build
         env:
           CC: ${{ matrix.cc }}
@@ -114,11 +121,10 @@ jobs:
             subdir: windows-x86_64
             target: x86_64-pc-windows-msvc
             libfile: etebase_jni.dll
-          - runner: ubuntu-24.04
+          - runner: windows-11-arm
             subdir: windows-aarch64
-            target: aarch64-pc-windows-gnullvm
+            target: aarch64-pc-windows-msvc
             libfile: etebase_jni.dll
-            zig: true
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
@@ -129,23 +135,15 @@ jobs:
           rustflags: ""
           cache: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
+      - name: Build libsodium
+        shell: bash
+        run: |
+          dir=$(./build-libsodium.sh ${{ matrix.target }})
+          echo "SODIUM_LIB_DIR=$dir" >> $GITHUB_ENV
+
       - name: Build
-        if: ${{ !matrix.zig }}
         shell: bash
         run: cargo build --locked --target ${{ matrix.target }} --release --no-default-features --features jvm
-
-      - name: Install cargo-zigbuild
-        if: matrix.zig
-        run: |
-          python3 -m venv "$RUNNER_TEMP/zig"
-          "$RUNNER_TEMP/zig/bin/pip" install --require-hashes -r zig-requirements.txt
-          echo "$RUNNER_TEMP/zig/bin" >> $GITHUB_PATH
-
-      - name: Build (zig)
-        if: matrix.zig
-        env:
-          ZIG: python3 -m ziglang
-        run: ./build-windows-aarch64.sh
 
       - name: Upload native lib
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
