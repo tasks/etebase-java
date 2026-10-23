@@ -4,8 +4,8 @@ plugins {
 }
 
 def releaseVersion = System.getenv("ETEBASE_VERSION")
-if (releaseVersion != null && !(releaseVersion ==~ /\d+\.\d+\.\d+(-[0-9A-Za-z.]+)?/)) {
-    throw new GradleException("ETEBASE_VERSION must be X.Y.Z or X.Y.Z-suffix, not \"$releaseVersion\"")
+if (releaseVersion != null && !(releaseVersion ==~ /\d+\.\d+\.\d+(-SNAPSHOT)?/)) {
+    throw new GradleException("ETEBASE_VERSION must be X.Y.Z or X.Y.Z-SNAPSHOT, not \"$releaseVersion\"")
 }
 
 allprojects {
