@@ -12,7 +12,7 @@ done
 mkdir -p client/src/main/java/com/etebase/client
 cp "$artifacts"/android-generated-java/*.java client/src/main/java/com/etebase/client/
 
-for subdir in macos-aarch64 macos-x86_64 linux-x86_64 linux-aarch64 windows-x86_64; do
+for subdir in macos-aarch64 macos-x86_64 linux-x86_64 linux-aarch64 windows-x86_64 windows-aarch64; do
     mkdir -p client-jvm/src/main/resources/com/etebase/client/native/$subdir
     cp "$artifacts/desktop-$subdir"/* client-jvm/src/main/resources/com/etebase/client/native/$subdir/
 done
