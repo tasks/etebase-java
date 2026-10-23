@@ -137,7 +137,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '11'
+          java-version: '21'
 
       - name: Install pinned Android NDK
         run: echo y | JAVA_HOME="$JAVA_HOME_17_X64" $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;21.3.6528147"
@@ -177,7 +177,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '11'
+          java-version: '21'
 
       - name: Download native libs
         uses: actions/download-artifact@v4
